@@ -8,7 +8,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
-
   @override
   State<Settings> createState() => _SettingsState();
 }
