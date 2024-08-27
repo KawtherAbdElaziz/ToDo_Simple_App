@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_simple_app/core/firebase_utils.dart';
 import 'package:todo_simple_app/core/settings_provider.dart';
 import 'package:todo_simple_app/model/task_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskItemWidget extends StatefulWidget {
   final TaskModel taskModel;
@@ -27,14 +27,26 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
           color:
-          provider.isDark() ? const Color(0xff141922) : theme.primaryColor,
+              provider.isDark() ? const Color(0xff141922) : theme.primaryColor,
           borderRadius: BorderRadius.circular(15)),
       child: Slidable(
         startActionPane: ActionPane(motion: const BehindMotion(), children: [
           SlidableAction(
             padding: EdgeInsets.zero,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+            borderRadius: BorderRadius.only(
+              topLeft: Localizations.localeOf(context).languageCode == 'ar'
+                  ? Radius.zero
+                  : const Radius.circular(12),
+              bottomLeft: Localizations.localeOf(context).languageCode == 'ar'
+                  ? Radius.zero
+                  : const Radius.circular(12),
+              topRight: Localizations.localeOf(context).languageCode == 'ar'
+                  ? const Radius.circular(12)
+                  : Radius.zero,
+              bottomRight: Localizations.localeOf(context).languageCode == 'ar'
+                  ? const Radius.circular(12)
+                  : Radius.zero,
+            ),
             onPressed: (context) {
               EasyLoading.show();
               FireBaseUtils.deleteTask(widget.taskModel)
@@ -52,9 +64,9 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                 context: context,
                 builder: (context) {
                   final titleController =
-                  TextEditingController(text: widget.taskModel.title);
+                      TextEditingController(text: widget.taskModel.title);
                   final descriptionController =
-                  TextEditingController(text: widget.taskModel.description);
+                      TextEditingController(text: widget.taskModel.description);
 
                   return AlertDialog(
                     title: Text(lang.editTask),
@@ -68,7 +80,7 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
                         TextField(
                           controller: descriptionController,
                           decoration:
-                          InputDecoration(labelText: lang.description),
+                              InputDecoration(labelText: lang.description),
                         ),
                       ],
                     ),
@@ -159,29 +171,29 @@ class _TaskItemWidgetState extends State<TaskItemWidget> {
               ),
               trailing: widget.taskModel.isDone
                   ? Text(
-                lang.done,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                    fontSize: 14, color: const Color(0xff61e757)),
-              )
+                      lang.done,
+                      style: theme.textTheme.bodyLarge?.copyWith(
+                          fontSize: 14, color: const Color(0xff61e757)),
+                    )
                   : InkWell(
-                onTap: () {
-                  EasyLoading.show();
-                  FireBaseUtils.updateTask(widget.taskModel)
-                      .then((onValue) => EasyLoading.dismiss());
-                },
-                child: Container(
-                  width: 70,
-                  height: 35,
-                  decoration: BoxDecoration(
-                      color: const Color(0xff5D9CEC),
-                      borderRadius: BorderRadius.circular(8)),
-                  child: const Icon(
-                    Icons.check,
-                    size: 30,
-                    color: Color(0xffffffff),
-                  ),
-                ),
-              )),
+                      onTap: () {
+                        EasyLoading.show();
+                        FireBaseUtils.updateTask(widget.taskModel)
+                            .then((onValue) => EasyLoading.dismiss());
+                      },
+                      child: Container(
+                        width: 70,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: const Color(0xff5D9CEC),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(
+                          Icons.check,
+                          size: 30,
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    )),
         ),
       ),
     );

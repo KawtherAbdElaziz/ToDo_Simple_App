@@ -1,9 +1,10 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:todo_simple_app/core/firebase_utils.dart';
 import 'package:todo_simple_app/model/task_model.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'widget/task_item_widget.dart';
 
 class Tasks extends StatefulWidget {
@@ -28,7 +29,7 @@ class _TasksState extends State<Tasks> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: 40),
+          padding: const EdgeInsets.only(bottom: 60),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -44,6 +45,7 @@ class _TasksState extends State<Tasks> {
                 child: SizedBox(
                   width: mediaQuery.size.width,
                   child: EasyInfiniteDateTimeLine(
+                    locale: lang.localeName == 'ar' ? 'ar' : 'en',
                     showTimelineHeader: false,
                     controller: _controller,
                     firstDate: DateTime(2024),

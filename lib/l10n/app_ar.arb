@@ -20,5 +20,18 @@
     "settings":"الإعدادات",
     "selecteLang":"أختر اللغه",
     "tasks":"المهام",
-    "somethingWentWrong" : "حدث خطأ"
+    "somethingWentWrong" : "حدث خطأ",
+    "login":"تسجيل دخول",
+    "welcome" : "مرحبا بعودتك !" ,
+    "email":"الإيميل" ,
+    "password" : "كلمة السر" ,
+    "fpass" : "هل نسيت كلمةالسر ؟",
+    "create" : "أو انشاء حسابي الخاص" ,
+    "userName" : "إسم المستخدم" ,
+    "creteaAccount"  : "انشاء حساب خاص",
+    "haveAccount" : "هل لديك حساب",
+    "eyEmail" : "ادخال الإيميل",
+    "eyPassword" : "ادخال كلمةالسر", 
+    "eyName" : "ادخال الإسم",
+    "signOut" : "تسجيل خروج"
 }

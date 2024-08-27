@@ -1,10 +1,14 @@
 import 'dart:developer';
 
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:todo_simple_app/core/settings_provider.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_simple_app/core/firebase_utils.dart';
+import 'package:todo_simple_app/core/services/snack_bar_service.dart';
+import 'package:todo_simple_app/core/settings_provider.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -37,8 +41,9 @@ class _SettingsState extends State<Settings> {
         Padding(
           padding: const EdgeInsets.only(top: 80, left: 20, right: 20),
           child: Text(lang.langauge,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: provider.isDark() ? Colors.white : Colors.black)),
         ),
         const SizedBox(
           height: 30,
@@ -47,19 +52,19 @@ class _SettingsState extends State<Settings> {
           padding: const EdgeInsets.only(left: 50, right: 50),
           child: SizedBox(
             width: 320,
-            height: 50,
+            height: 70,
             child: CustomDropdown<String>(
               hintText: 'Select Langauge',
               items: langauges,
-              initialItem: provider.currentLangauge == "en"
+              initialItem: provider.currentLanguage == "en"
                   ? langauges[0]
                   : langauges[1],
               onChanged: (value) {
                 if (value == "English") {
-                  provider.changeCurrentLangauge("en");
+                  provider.changeCurrentLanguage("en");
                 }
                 if (value == "عربي") {
-                  provider.changeCurrentLangauge("ar");
+                  provider.changeCurrentLanguage("ar");
                 }
                 log('changing value to: $value');
               },
@@ -83,13 +88,14 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         const SizedBox(
-          height: 50,
+          height: 60,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: Text(lang.mode,
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: provider.isDark() ? Colors.white : Colors.black)),
         ),
         const SizedBox(
           height: 10,
@@ -98,7 +104,7 @@ class _SettingsState extends State<Settings> {
           padding: const EdgeInsets.only(left: 50, right: 50),
           child: SizedBox(
             width: 320,
-            height: 50,
+            height: 70,
             child: CustomDropdown<String>(
               hintText: 'Select Theme',
               items: theme0,
@@ -107,9 +113,11 @@ class _SettingsState extends State<Settings> {
                   : theme0[1],
               onChanged: (value) {
                 if (value == "Light" || value == "فاتح") {
+                  log('Switching to Light theme');
                   provider.changeCurrentTheme(ThemeMode.light);
                 }
                 if (value == "Dark" || value == "داكن") {
+                  log('Switching to Dark theme');
                   provider.changeCurrentTheme(ThemeMode.dark);
                 }
                 log('changing value to: $value');
@@ -133,6 +141,49 @@ class _SettingsState extends State<Settings> {
             ),
           ),
         ),
+        const SizedBox(
+          height: 150,
+        ),
+        ElevatedButton(
+            style: FilledButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 18),
+                backgroundColor: const Color(0xff5D9CEC),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10))),
+            onPressed: () async {
+              try {
+                await FireBaseUtils.signOut().then((value) {
+                  if (value) {
+                    EasyLoading.dismiss();
+                    SnackBarService.showSuccessMessage(
+                        "Successfully signed out.");
+                    if (context.mounted) {
+                      Navigator.of(context).pushReplacementNamed('/login');
+                    }
+                    if (kDebugMode) {
+                      print("Vaild");
+                    }
+                  }
+                });
+              } catch (e) {
+                SnackBarService.showErrorMessage(
+                    "Error signing out. Please try again.");
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  lang.signOut,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                const Icon(Icons.arrow_forward, size: 30, color: Colors.black)
+              ],
+            )),
       ],
     );
   }

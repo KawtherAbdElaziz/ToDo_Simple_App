@@ -1,11 +1,11 @@
 // ignore_for_file: avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todo_simple_app/core/utiles.dart';
-import 'package:todo_simple_app/model/task_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:todo_simple_app/core/services/snack_bar_service.dart';
+import 'package:todo_simple_app/core/utiles.dart';
+import 'package:todo_simple_app/model/task_model.dart';
 
 class FireBaseUtils {
   static CollectionReference<TaskModel> getCollectionRef() {
@@ -130,4 +130,34 @@ class FireBaseUtils {
     }
     return Future.value(false);
   }
+
+  static Future<bool> signOut() async {
+    try {
+      EasyLoading.show(status: 'Signing out...');
+      await FirebaseAuth.instance.signOut();
+      EasyLoading.dismiss();
+      SnackBarService.showSuccessMessage("Successfully signed out.");
+      return Future.value(true);
+    } on FirebaseAuthException catch (e) {
+      EasyLoading.dismiss();
+      print('Error signing out: $e');
+      SnackBarService.showErrorMessage("Error signing out. Please try again.");
+      return Future.value(false);
+    } catch (e) {
+      EasyLoading.dismiss();
+      print('Unexpected error: $e');
+      SnackBarService.showErrorMessage(
+          "Unexpected error occurred. Please try again.");
+      return Future.value(false);
+    }
+  }
+// Future<void> signOut() async {
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   try {
+//     await auth.signOut();
+//   } catch (e) {
+//     // Handle error
+//     print('Error signing out: $e');
+//   }
+// }
 }

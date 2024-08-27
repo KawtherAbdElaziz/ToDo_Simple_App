@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_simple_app/core/page_route_names.dart';
+import 'package:todo_simple_app/core/settings_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 5), () {
       Navigator.pushReplacementNamed(context, PageRouteNames.login);
     });
     super.initState();
@@ -22,8 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<SettingsProvider>(context);
+
     return Image.asset(
-      "assets/images/splash@3x.png",
+      provider.getSplashScreenImage(),
       fit: BoxFit.cover,
     );
   }

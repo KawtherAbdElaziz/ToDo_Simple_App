@@ -20,5 +20,19 @@
     "settings":"Settings",
     "selecteLang":"Selecte Langauge",
     "tasks":"Tasks",
-    "somethingWentWrong":"Something Went Wrong"
+    "somethingWentWrong":"Something Went Wrong",
+    "login":"Login",
+    "welcome" : "Welcome Back!" ,
+    "email":"Email" ,
+    "password" : "Password" ,
+    "fpass" : "Forget Password?",
+    "create" : "Or Create My Account" ,
+    "userName" : "User Name" ,
+    "creteaAccount"  : "Create Account",
+    "haveAccount" : "Or Have Account?",
+    "eyEmail" : "Enter Your Email",
+    "eyPassword" : "Enter Your Password", 
+    "eyName" : "Enter Your Name",
+    "signOut" : "SignOut"
+
 }
